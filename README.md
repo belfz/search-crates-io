@@ -12,6 +12,7 @@ Type in the name of the crate and wait for suggestions to appear, or hit `ctrl+s
 ## TODO
 - add tests
 - activate the suggestions only in `[dependencies]` section
+- contact crates.io and ask for permissions to use the crates' logo
 
 ## Release Notes
 
