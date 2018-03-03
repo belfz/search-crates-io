@@ -2,7 +2,7 @@
     "name": "search-crates-io",
     "displayName": "Search crates.io",
     "description": "crates names suggestions for your project's Cargo.toml file",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "belfz",
     "repository": {
         "type": "git",
