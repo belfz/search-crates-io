@@ -7,7 +7,7 @@ Rust's crates suggestions in your Cargo.toml file (based on crates.io search API
 This extension provides crates suggestions while editing the Cargo.toml file in your Rust project.
 Type in the name of the crate and wait for suggestions to appear, or hit `ctrl+space`.
 
-\!\[suggestions\]\(images/suggestions.gif\)
+![suggestions](images/suggestions.gif)
 
 ## TODO
 - add tests
