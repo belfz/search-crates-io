@@ -4,6 +4,10 @@
     "description": "crates names suggestions for your project's Cargo.toml file",
     "version": "0.0.1",
     "publisher": "belfz",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/belfz/search-crates-io.git"
+    },
     "engines": {
         "vscode": "^1.20.0"
     },
