@@ -1,18 +1,35 @@
 {
     "name": "search-crates-io",
     "displayName": "Search crates.io",
-    "description": "crates names suggestions for your project's Cargo.toml file",
+    "description": "crates suggestions for your Rust project's Cargo.toml file",
+    "keywords": [
+        "rust",
+        "cargo",
+        "crate",
+        "crates",
+        "crates.io"
+    ],
+    "license": "MIT",
     "version": "0.0.3",
+    "author": {
+        "name": "Marcin Baraniecki (belfz)",
+        "email": "marcinbar1@gmail.com"
+    },
     "publisher": "belfz",
+    "homepage": "https://github.com/belfz/search-crates-io/blob/master/README.md",
     "repository": {
         "type": "git",
         "url": "https://github.com/belfz/search-crates-io.git"
     },
+    "bugs": {
+        "url": "https://github.com/belfz/search-crates-io/issues"
+    },
+    "icon": "img/logo.png",
     "engines": {
         "vscode": "^1.20.0"
     },
     "categories": [
-        "Other"
+        "Languages", "Other"
     ],
     "activationEvents": [
         "workspaceContains:Cargo.toml"
