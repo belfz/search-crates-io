@@ -9,12 +9,19 @@ Type in the name of the crate and wait for suggestions to appear, or hit `ctrl+s
 
 ![suggestions](images/suggestions.gif)
 
+## Info
+This project uses the crates.io's official logo (a verbal consent has been granted by Mozilla representative), but it is NOT officially endorsed by the Rust project.
+
 ## TODO
 - add tests
 - activate the suggestions only in `[dependencies]` section
-- contact crates.io and ask for permissions to use the crates' logo
 
 ## Release Notes
+
+### 1.0.0
+
+- Adds crates' logo.
+- Completes the package.json fields required/suggested by the VSC extensions guidelines.
 
 ### 0.0.1
 
