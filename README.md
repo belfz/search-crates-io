@@ -18,6 +18,9 @@ This project uses the crates.io's official logo (a verbal consent has been grant
 
 ## Release Notes
 
+### 1.1.1
+
+- Replaces whole line when suggestion is applied, despite of the cursor position in the line.
 ### 1.0.0
 
 - Adds crates' logo.

@@ -10,19 +10,17 @@ type Crate = {
     name: string;
 };
 
-const mapCrateToCompletionItem = (crate: Crate) => {
+const mapCrateToCompletionItem = (currentLineReplaceRange: vscode.Range) => (crate: Crate) => {
     const { description, max_version, name } = crate;
     const item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Text);
+    item.additionalTextEdits = [vscode.TextEdit.delete(currentLineReplaceRange)];
     item.insertText = `${name} = "${max_version}"`;
     item.detail = `${max_version}`;
     item.documentation = `${description}`;
     return item;
 };
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "search-crates-io" is now active!');
@@ -34,12 +32,15 @@ export function activate(context: vscode.ExtensionContext) {
                 return;
             }
 
-            const { text } = editor.document.lineAt(editor.selection.active.line);
+            const lineIndex = editor.selection.active.line;
+            const { text } = editor.document.lineAt(lineIndex);
+
+            const currentLineReplaceRange = new vscode.Range(new vscode.Position(lineIndex, 0), new vscode.Position(lineIndex, text.length));
 
             try {
                 const { data } = await axios.get(`https://crates.io/api/v1/crates?page=1&per_page=20&q=${text}&sort=`);
                 const crates: Crate[] = data.crates;
-                return crates.map(mapCrateToCompletionItem);
+                return crates.map(mapCrateToCompletionItem(currentLineReplaceRange));
             } catch (err) {
                 console.error(err);
             }
