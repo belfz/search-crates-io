@@ -10,6 +10,15 @@ type Crate = {
     name: string;
 };
 
+const mapCrateToCompletionItem = (crate: Crate) => {
+    const { description, max_version, name } = crate;
+    const item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Text);
+    item.insertText = `${name} = "${max_version}"`;
+    item.detail = `${max_version}`;
+    item.documentation = `${description}`;
+    return item;
+};
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -19,27 +28,21 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "search-crates-io" is now active!');
 
     vscode.languages.registerCompletionItemProvider({ language: 'toml', pattern: '**/Cargo.toml' }, {
-        provideCompletionItems (document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): vscode.ProviderResult<vscode.CompletionItem[]> {
+        async provideCompletionItems (document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
             const editor = vscode.window.activeTextEditor;
             if (!editor) {
                 return;
             }
 
-            const { selection } = editor;
-            const lineIndex = selection.active.line;
-            const { text: textLine } = editor.document.lineAt(lineIndex);
+            const { text } = editor.document.lineAt(editor.selection.active.line);
 
-            return axios.get(`https://crates.io/api/v1/crates?page=1&per_page=20&q=${textLine}&sort=`)
-                .then(res => res.data.crates)
-                .then((crates: Crate[]) => crates.map(crate => {
-                    const { description, max_version, name } = crate;
-                    const item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Text);
-                    item.insertText = `${name} = "${max_version}"`;
-                    item.detail = `${max_version}`;
-                    item.documentation = `${description}`;
-                    return item;
-                }))
-                .catch(e => console.error(e)) as Thenable<vscode.CompletionItem[]>;
+            try {
+                const { data } = await axios.get(`https://crates.io/api/v1/crates?page=1&per_page=20&q=${text}&sort=`);
+                const crates: Crate[] = data.crates;
+                return crates.map(mapCrateToCompletionItem);
+            } catch (err) {
+                console.error(err);
+            }
         },
         resolveCompletionItem (item: vscode.CompletionItem, token: vscode.CancellationToken) {
             return item;
