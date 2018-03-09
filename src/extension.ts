@@ -3,6 +3,10 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import axios from 'axios';
+const dropRightWhile = require('lodash.droprightwhile');
+const range = require('lodash.range');
+
+const DEPENDENCIES_MARKER = '[dependencies]';
 
 type Crate = {
     description: string;
@@ -20,6 +24,15 @@ const mapCrateToCompletionItem = (currentLineReplaceRange: vscode.Range) => (cra
     return item;
 };
 
+const isInDependenciesSection = (editor: vscode.TextEditor, activeLineIndex: number): boolean => {
+    const lines = dropRightWhile(
+        range(0, activeLineIndex).map(i => editor.document.lineAt(i).text),
+        (line: string) => !line.startsWith('[')
+    );
+    
+    return (lines[lines.length - 1] || '') === DEPENDENCIES_MARKER;
+};
+
 export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
@@ -34,6 +47,10 @@ export function activate(context: vscode.ExtensionContext) {
 
             const lineIndex = editor.selection.active.line;
             const { text } = editor.document.lineAt(lineIndex);
+
+            if (!isInDependenciesSection(editor, lineIndex)) {
+                return;
+            }
 
             const currentLineReplaceRange = new vscode.Range(new vscode.Position(lineIndex, 0), new vscode.Position(lineIndex, text.length));
 

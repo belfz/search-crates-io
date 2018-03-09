@@ -10,7 +10,7 @@
         "crates.io"
     ],
     "license": "MIT",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "author": {
         "name": "Marcin Baraniecki (belfz)",
         "email": "marcinbar1@gmail.com"
@@ -45,13 +45,17 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "tslint": "^5.8.0",
+        "@types/lodash.droprightwhile": "^4.6.3",
+        "@types/lodash.range": "^3.2.3",
+        "@types/mocha": "^2.2.42",
         "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "tslint": "^5.8.0",
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6"
     },
     "dependencies": {
-        "axios": "^0.18.0"
+        "axios": "^0.18.0",
+        "lodash.droprightwhile": "^4.6.0",
+        "lodash.range": "^3.2.0"
     }
 }
