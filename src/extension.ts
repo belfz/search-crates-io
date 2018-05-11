@@ -24,9 +24,9 @@ const mapCrateToCompletionItem = (currentLineReplaceRange: vscode.Range) => (cra
     return item;
 };
 
-const isInDependenciesSection = (editor: vscode.TextEditor, activeLineIndex: number): boolean => {
+const isInDependenciesSection = (document: vscode.TextDocument, activeLineIndex: number): boolean => {
     const lines = dropRightWhile(
-        range(0, activeLineIndex).map(i => editor.document.lineAt(i).text),
+        range(0, activeLineIndex).map(i => document.lineAt(i).text),
         (line: string) => !line.startsWith('[')
     );
     
@@ -40,15 +40,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.languages.registerCompletionItemProvider({ language: 'toml', pattern: '**/Cargo.toml' }, {
         async provideCompletionItems (document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
-            const editor = vscode.window.activeTextEditor;
-            if (!editor) {
-                return;
-            }
+            const lineIndex = position.line;
+            const { text } = document.lineAt(lineIndex);
 
-            const lineIndex = editor.selection.active.line;
-            const { text } = editor.document.lineAt(lineIndex);
-
-            if (!isInDependenciesSection(editor, lineIndex)) {
+            if (!isInDependenciesSection(document, lineIndex)) {
                 return;
             }
 

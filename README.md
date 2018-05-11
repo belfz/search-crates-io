@@ -17,6 +17,10 @@ This project uses the crates.io's official logo (a verbal consent has been grant
 
 ## Release Notes
 
+### 1.2.1
+
+- Avoids using `activeEditor` (closes [#1](https://github.com/belfz/search-crates-io/issues/1))
+
 ### 1.2.0
 
 - Activates suggestions only if the line lies within `[dependencies]` section.
